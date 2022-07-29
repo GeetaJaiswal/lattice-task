@@ -15,10 +15,10 @@ app.post('/doctor_registration', (req, res) => {
     
     db.query(sql, (err, result) => {
         if(err) {
-            res.send(`Not able to register, ${err}`);
+            res.status(400).send(`Not able to register, ${err}`);
             throw err;
         }
-        res.send('Doctor registered Successfully');
+        res.status(200).send('Doctor registered Successfully');
     })
 })
 
@@ -47,7 +47,7 @@ app.post('/patient_registration', upload.single('photo'), (req, res) => {
         
         db.query(sql, (err, result) => {
             if(err) {
-                res.status(401).send(`Not able to register, ${err}`);
+                res.status(400).send(`Not able to register, ${err}`);
                 throw err;
             }
             res.status(200).send('Patient registered Successfully');
@@ -62,7 +62,7 @@ app.get('/details/:id', (req, res) => {
     let data = db.query(`SELECT * FROM patients INNER JOIN psychiatrists ON patients.hospital_id='${req.params.id}' &&psychiatrists.hospital_id = '${req.params.id}'`, function(err, result){
         if(err)
         {
-            res.status(500).send(err);
+            res.status(400).send(err);
         }
         const key = 'id';
         let Patient = [...new Map(result.map(item=> [item[key], item])).values()];
@@ -78,7 +78,7 @@ app.get('/details/:id', (req, res) => {
         let TotalPsychiatrists = [...new Set(result.map(item=>item.doctor_id))];
         
         resp = {hospitalName: result[0].hospital_name, TotalPsychiatrists:TotalPsychiatrists.length, TotalPatients: TotalPatients.length, PsychiatristId: PsychiatristId, PatientDetails}
-        res.json(resp)
+        res.status(200).json(resp)
     });
 })
 
