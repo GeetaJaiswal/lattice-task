@@ -10,4 +10,11 @@ const schema = Joi.object({
     hospital_id: Joi.string().required()
 });
 
-module.exports = schema;
+const doctorSchema = Joi.object({
+    doctor_id: Joi.string().required(),
+    role: Joi.string().required(),
+    hospital_id: Joi.string().required(),
+    hospital_name: Joi.string().required(),
+});
+
+module.exports = {schema, doctorSchema};

@@ -2,7 +2,7 @@ const express = require('express');
 const multer  = require('multer');
 const path = require('path');
 const db = require('./db/db');
-const schema = require('./schemaValidation/validation');
+const {schema, doctorSchema} = require('./schemaValidation/validation');
 
 const app = express();
 app.use(express.json());
@@ -11,15 +11,22 @@ const port =  process.env.PORT || 3000;
 //Doctor registration
 app.post('/doctor_registration', (req, res) => {
     let data = req.body;
-    let sql = `INSERT INTO psychiatrists(doctor_id, role, hospital_id, hospital_name) VALUES('${data.doctor_id}', '${data.role}', '${data.hospital_id}', '${data.hospital_name}')`;
-    
-    db.query(sql, (err, result) => {
-        if(err) {
-            res.status(400).send(`Not able to register, ${err}`);
-            throw err;
-        }
-        res.status(200).send('Doctor registered Successfully');
-    })
+    const result = doctorSchema.validate(data);
+    if(result.error) {
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+    else {
+        let sql = `INSERT INTO psychiatrists(doctor_id, role, hospital_id, hospital_name) VALUES('${data.doctor_id}', '${data.role}', '${data.hospital_id}', '${data.hospital_name}')`;
+        
+        db.query(sql, (err, result) => {
+            if(err) {
+                res.status(400).send(`Not able to register, ${err}`);
+                throw err;
+            }
+            res.status(200).send('Doctor registered Successfully');
+        })
+    }
 })
 
 //File Upload
