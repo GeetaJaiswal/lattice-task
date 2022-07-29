@@ -12,3 +12,5 @@ API Endpoints -
 For Doctor Registration (Post Request) -  http://localhost:3000/doctor_registration
 For Patient Registration (Post Request) - http://localhost:3000/patient_registration 
 For getting details (Get Request) - http://localhost:3000/details/:id  (http://localhost:3000/details/121G7)
+
+collection Access - https://www.getpostman.com/collections/142386e1f826135953a3
