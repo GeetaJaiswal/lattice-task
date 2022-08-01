@@ -1,6 +1,5 @@
 # lattice-task
 
-List API endpoints details and postman/swagger link to check the API.
 libraries/frameworks used - 
 1) Express - Nodejs Framework
 2) Mysql - For database
